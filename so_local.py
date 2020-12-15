@@ -465,7 +465,7 @@ MODLIST = [
 ]
 
 
-def run_models(model_names=None, model_list=None, data_root=None, run=True):
+def run_models(model_names=None, model_list=None, data_root=None, run=True, force=True):
     """
     local mod on sotabench
     """
@@ -520,13 +520,16 @@ def run_models(model_names=None, model_list=None, data_root=None, run=True):
             print(type(xform))
             print(xform)
 
+            # force Flag ensures local benchmark is computed regardless of the value in sotabench
+            # requires https://github.com/xvdp/torchbench
             res = ImageNet.benchmark(model=model,
                                      paper_model_name=model_name,
                                      data_root=data_root,
                                      input_transform=xform,
                                      batch_size=batch_size,
                                      num_gpu=1,
-                                     pin_memory=True)
+                                     pin_memory=True,
+                                     force=force)
             out.append(res)
 
 
