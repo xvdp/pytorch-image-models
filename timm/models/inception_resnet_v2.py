@@ -7,12 +7,13 @@ import torch.nn as nn
 import torch.nn.functional as F
 
 from timm.data import IMAGENET_INCEPTION_MEAN, IMAGENET_INCEPTION_STD
-from .helpers import build_model_with_cfg
-from .layers import create_classifier
+from ..utils.helpers import build_model_with_cfg
+from ..utils.layers import create_classifier
 from .registry import register_model
 
 __all__ = ['InceptionResnetV2']
 
+# pylint: disable=no-member
 default_cfgs = {
     # ported from http://download.tensorflow.org/models/inception_resnet_v2_2016_08_30.tar.gz
     'inception_resnet_v2': {

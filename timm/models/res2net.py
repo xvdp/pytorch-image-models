@@ -8,13 +8,13 @@ import torch
 import torch.nn as nn
 
 from timm.data import IMAGENET_DEFAULT_MEAN, IMAGENET_DEFAULT_STD
-from .helpers import build_model_with_cfg
+from ..utils.helpers import build_model_with_cfg
 from .registry import register_model
 from .resnet import ResNet
 
 __all__ = []
 
-
+# pylint: disable=no-member
 def _cfg(url='', **kwargs):
     return {
         'url': url,

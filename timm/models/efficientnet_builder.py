@@ -14,7 +14,7 @@ from copy import deepcopy
 import torch.nn as nn
 
 from .efficientnet_blocks import *
-from .layers import CondConv2d, get_condconv_initializer
+from ..utils.layers import CondConv2d, get_condconv_initializer
 
 __all__ = ["EfficientNetBuilder", "decode_arch_def", "efficientnet_init_weights"]
 

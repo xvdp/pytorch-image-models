@@ -4,7 +4,7 @@ import torch.nn.functional as F
 
 from .cross_entropy import LabelSmoothingCrossEntropy
 
-
+# pylint: disable=no-member
 class JsdCrossEntropy(nn.Module):
     """ Jensen-Shannon Divergence + Cross-Entropy Loss
 

@@ -12,7 +12,7 @@ Original header/copyright below.
 import torch
 import math
 
-
+# pylint: disable=no-member
 class Adafactor(torch.optim.Optimizer):
     """Implements Adafactor algorithm.
     This implementation is based on: `Adafactor: Adaptive Learning Rates with Sublinear Memory Cost`

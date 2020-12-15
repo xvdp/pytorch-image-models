@@ -6,7 +6,7 @@ import math
 import random
 import numpy as np
 
-
+# pylint: disable=no-member
 class ToNumpy:
 
     def __call__(self, pil_img):

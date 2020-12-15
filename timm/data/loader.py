@@ -15,7 +15,8 @@ from .distributed_sampler import OrderedDistributedSampler
 from .random_erasing import RandomErasing
 from .mixup import FastCollateMixup
 
-
+# pylint: disable=no-member
+# pylint: disable=not-callable
 def fast_collate(batch):
     """ A fast collation function optimized for uint8 images (np array or torch) and int64 targets (labels)"""
     assert isinstance(batch[0], tuple)

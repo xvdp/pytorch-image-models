@@ -5,12 +5,13 @@ import torch
 import torch.nn as nn
 import torch.nn.functional as F
 
-from .helpers import build_model_with_cfg
-from .layers import ConvBnAct, create_conv2d, create_pool2d, create_classifier
+from ..utils.helpers import build_model_with_cfg
+from ..utils.layers import ConvBnAct, create_conv2d, create_pool2d, create_classifier
 from .registry import register_model
 
 __all__ = ['NASNetALarge']
 
+#pylint: disable=no-member
 default_cfgs = {
     'nasnetalarge': {
         'url': 'http://data.lip6.fr/cadene/pretrainedmodels/nasnetalarge-a1897284.pth',

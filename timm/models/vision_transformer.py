@@ -25,12 +25,12 @@ import torch.nn as nn
 from functools import partial
 
 from timm.data import IMAGENET_DEFAULT_MEAN, IMAGENET_DEFAULT_STD
-from .helpers import load_pretrained
-from .layers import DropPath, to_2tuple, trunc_normal_
+from ..utils.helpers import load_pretrained
+from ..utils.layers import DropPath, to_2tuple, trunc_normal_
 from .resnet import resnet26d, resnet50d
 from .registry import register_model
 
-
+# pylint: disable=no-member
 def _cfg(url='', **kwargs):
     return {
         'url': url,

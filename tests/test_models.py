@@ -7,6 +7,7 @@ import fnmatch
 import timm
 from timm import list_models, create_model, set_scriptable
 
+# pylint: disable=no-member
 if hasattr(torch._C, '_jit_set_profiling_executor'):
     # legacy executor is too slow to compile large models for unit tests
     # no need for the fusion performance here

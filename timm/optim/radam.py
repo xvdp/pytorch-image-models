@@ -2,6 +2,8 @@
 Implementation lifted from: https://github.com/LiyuanLucasLiu/RAdam
 Paper: `On the Variance of the Adaptive Learning Rate and Beyond` - https://arxiv.org/abs/1908.03265
 """
+# pylint: disable=no-name-in-module
+# pylint: disable=no-member
 import math
 import torch
 from torch.optim.optimizer import Optimizer, required

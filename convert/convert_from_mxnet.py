@@ -11,7 +11,7 @@ parser = argparse.ArgumentParser(description='Convert from MXNet')
 parser.add_argument('--model', default='all', type=str, metavar='MODEL',
                     help='Name of model to train (default: "all"')
 
-
+# pylint: disable=no-member
 def convert(mxnet_name, torch_name):
     # download and load the pre-trained model
     net = gluoncv.model_zoo.get_model(mxnet_name, pretrained=True)

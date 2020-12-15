@@ -14,7 +14,7 @@ from .scheduler import Scheduler
 
 _logger = logging.getLogger(__name__)
 
-
+# pylint: disable=no-member
 class CosineLRScheduler(Scheduler):
     """
     Cosine decay with restarts.

@@ -6,7 +6,8 @@ Licensed under BSD-Clause 3 (ish), https://github.com/pytorch/pytorch/blob/maste
 
 Modifications Copyright 2020 Ross Wightman
 """
-
+# pylint: disable=no-name-in-module
+# pylint: disable=no-member
 import torch
 from torch.optim import Optimizer
 

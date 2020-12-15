@@ -14,8 +14,8 @@ import torch.nn as nn
 from math import ceil
 
 from timm.data import IMAGENET_DEFAULT_MEAN, IMAGENET_DEFAULT_STD
-from .helpers import build_model_with_cfg
-from .layers import ClassifierHead, create_act_layer, ConvBnAct, DropPath
+from ..utils.helpers import build_model_with_cfg
+from ..utils.layers import ClassifierHead, create_act_layer, ConvBnAct, DropPath
 from .registry import register_model
 from .efficientnet_builder import efficientnet_init_weights
 

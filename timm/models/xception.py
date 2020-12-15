@@ -25,10 +25,11 @@ The resize parameter of the validation transform should be 333, and make sure to
 import torch.nn as nn
 import torch.nn.functional as F
 
-from .helpers import build_model_with_cfg
-from .layers import create_classifier
+from ..utils.helpers import build_model_with_cfg
+from ..utils.layers import create_classifier
 from .registry import register_model
 
+# pylint: disable=no-member
 __all__ = ['Xception']
 
 default_cfgs = {

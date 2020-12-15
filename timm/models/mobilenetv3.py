@@ -16,9 +16,9 @@ from typing import List
 from timm.data import IMAGENET_DEFAULT_MEAN, IMAGENET_DEFAULT_STD, IMAGENET_INCEPTION_MEAN, IMAGENET_INCEPTION_STD
 from .efficientnet_blocks import round_channels, resolve_bn_args, resolve_act_layer, BN_EPS_TF_DEFAULT
 from .efficientnet_builder import EfficientNetBuilder, decode_arch_def, efficientnet_init_weights
-from .features import FeatureInfo, FeatureHooks
-from .helpers import build_model_with_cfg, default_cfg_for_features
-from .layers import SelectAdaptivePool2d, Linear, create_conv2d, get_act_fn, hard_sigmoid
+from ..utils.features import FeatureInfo, FeatureHooks
+from ..utils.helpers import build_model_with_cfg, default_cfg_for_features
+from ..utils.layers import SelectAdaptivePool2d, Linear, create_conv2d, get_act_fn, hard_sigmoid
 from .registry import register_model
 
 __all__ = ['MobileNetV3']

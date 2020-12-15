@@ -8,7 +8,7 @@ import torch
 
 from .scheduler import Scheduler
 
-
+# pylint: disable=no-member
 class PlateauLRScheduler(Scheduler):
     """Decay the LR by a factor every time the validation loss plateaus."""
 

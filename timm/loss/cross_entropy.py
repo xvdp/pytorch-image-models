@@ -2,7 +2,7 @@ import torch
 import torch.nn as nn
 import torch.nn.functional as F
 
-
+# pylint: disable=no-member
 class LabelSmoothingCrossEntropy(nn.Module):
     """
     NLL loss with label smoothing.

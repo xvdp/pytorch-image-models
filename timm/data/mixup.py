@@ -13,7 +13,8 @@ Hacked together by / Copyright 2020 Ross Wightman
 import numpy as np
 import torch
 
-
+# pylint: disable=no-member
+# pylint: disable=not-callable
 def one_hot(x, num_classes, on_value=1., off_value=0., device='cuda'):
     x = x.long().view(-1, 1)
     return torch.full((x.size()[0], num_classes), off_value, device=device).scatter_(1, x, on_value)

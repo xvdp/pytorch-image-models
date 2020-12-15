@@ -16,7 +16,7 @@ import argparse
 import os
 import glob
 import hashlib
-from timm.models.helpers import load_state_dict
+from timm.utils.helpers import load_state_dict
 
 parser = argparse.ArgumentParser(description='PyTorch Checkpoint Averager')
 parser.add_argument('--input', default='', type=str, metavar='PATH',
@@ -32,7 +32,7 @@ parser.add_argument('--no-sort', dest='no_sort', action='store_true',
 parser.add_argument('-n', type=int, default=10, metavar='N',
                     help='Number of checkpoints to average')
 
-
+# pylint: disable=no-member
 def checkpoint_metric(checkpoint_path):
     if not checkpoint_path or not os.path.isfile(checkpoint_path):
         return {}

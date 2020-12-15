@@ -13,7 +13,7 @@ from timm.data.auto_augment import rand_augment_transform, augment_and_mix_trans
 from timm.data.transforms import _pil_interp, RandomResizedCropAndInterpolation, ToNumpy, ToTensor
 from timm.data.random_erasing import RandomErasing
 
-
+# pylint: disable=not-callable
 def transforms_noaug_train(
         img_size=224,
         interpolation='bilinear',

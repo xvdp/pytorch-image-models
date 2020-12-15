@@ -13,12 +13,12 @@ import math
 from torch import nn as nn
 
 from timm.data import IMAGENET_DEFAULT_MEAN, IMAGENET_DEFAULT_STD
-from .helpers import build_model_with_cfg
-from .layers import SelectiveKernelConv, ConvBnAct, create_attn
+from ..utils.helpers import build_model_with_cfg
+from ..utils.layers import SelectiveKernelConv, ConvBnAct, create_attn
 from .registry import register_model
 from .resnet import ResNet
 
-
+# pylint: disable=no-member
 def _cfg(url='', **kwargs):
     return {
         'url': url,

@@ -5,7 +5,7 @@ Originally licensed MIT, Copyright 2020, David Samuel
 """
 import torch
 
-
+# pylint: disable=no-member
 class Adahessian(torch.optim.Optimizer):
     """
     Implements the AdaHessian algorithm from "ADAHESSIAN: An Adaptive Second OrderOptimizer for Machine Learning"

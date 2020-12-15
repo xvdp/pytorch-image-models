@@ -1,6 +1,8 @@
 """ AdamW Optimizer
 Impl copied from PyTorch master
 """
+# pylint: disable=no-name-in-module
+# pylint: disable=no-member
 import math
 import torch
 from torch.optim.optimizer import Optimizer

@@ -16,9 +16,9 @@ import torch.nn as nn
 import torch.nn.functional as F
 
 from timm.data import IMAGENET_DEFAULT_MEAN, IMAGENET_DEFAULT_STD
-from .features import FeatureInfo
-from .helpers import build_model_with_cfg, default_cfg_for_features
-from .layers import create_classifier
+from ..utils.features import FeatureInfo
+from ..utils.helpers import build_model_with_cfg, default_cfg_for_features
+from ..utils.layers import create_classifier
 from .registry import register_model
 from .resnet import BasicBlock, Bottleneck  # leveraging ResNet blocks w/ additional features like SE
 

@@ -1,11 +1,12 @@
+"""
+local mode of sotabench.py using torchbench
+"""
+import sys
 import torch
-from sotabencheval.image_classification import ImageNetEvaluator
-from sotabencheval.utils import is_server
-from timm import create_model
-from timm.data import resolve_data_config, create_loader, DatasetTar
+from torchbench.image_classification import ImageNet
+from timm import create_model, is_model, list_models
+from timm.data import resolve_data_config, create_transform
 from timm.utils import apply_test_time_pool
-from tqdm import tqdm
-import os
 
 NUM_GPU = 1
 BATCH_SIZE = 256 * NUM_GPU
@@ -24,7 +25,7 @@ def _entry(model_name, paper_model_name, paper_arxiv_id, batch_size=BATCH_SIZE,
 
 # NOTE For any original PyTorch models, I'll remove from this list when you add to sotabench to
 # avoid overlap and confusion. Please contact me.
-model_list = [
+MODLIST = [
     ## Weights ported by myself from other frameworks or trained myself in PyTorch
     _entry('adv_inception_v3', 'Adversarial Inception V3', '1611.01236',
            model_desc='Ported from official Tensorflow weights'),
@@ -463,78 +464,101 @@ model_list = [
     _entry('vit_base_patch16_224', 'ViT-B/16', None),
 ]
 
-if is_server():
-    DATA_ROOT = './.data/vision/imagenet'
-else:
-    # local settings
-    DATA_ROOT = './'
-DATA_FILENAME = 'ILSVRC2012_img_val.tar'
-TAR_PATH = os.path.join(DATA_ROOT, DATA_FILENAME)
 
-for m in model_list:
-    model_name = m['model']
-    # create model from name
-    model = create_model(model_name, pretrained=True)
-    param_count = sum([m.numel() for m in model.parameters()])
-    print('Model %s, %s created. Param count: %d' % (model_name, m['paper_model_name'], param_count))
+def run_models(model_names=None, model_list=None, data_root=None, run=True):
+    """
+    local mod on sotabench
+    """
 
-    dataset = DatasetTar(TAR_PATH)
-    filenames = [os.path.splitext(f)[0] for f in dataset.filenames()]
+    if model_list is None or data_root is None:
+        print("model_list not found")
+        print("data_root", data_root)
+        return None
+    out = []
+    # models in bench
+    
 
-    # get appropriate transform for model's default pretrained config
-    data_config = resolve_data_config(m['args'], model=model, verbose=True)
-    test_time_pool = False
-    if m['ttp']:
-        model, test_time_pool = apply_test_time_pool(model, data_config)
-        data_config['crop_pct'] = 1.0
+    for i, m in enumerate(model_list):
+        model_name = m['model']
+        if model_names is None or model_name in model_names:
+            # create model from name
 
-    batch_size = m['batch_size']
-    loader = create_loader(
-        dataset,
-        input_size=data_config['input_size'],
-        batch_size=batch_size,
-        use_prefetcher=True,
-        interpolation=data_config['interpolation'],
-        mean=data_config['mean'],
-        std=data_config['std'],
-        num_workers=6,
-        crop_pct=data_config['crop_pct'],
-        pin_memory=True)
+            model = create_model(model_name, pretrained=True)
+            data_config = resolve_data_config(m['args'], model=model, verbose=True)
+            if m['ttp']:
+                model, _ = apply_test_time_pool(model, data_config)
 
-    evaluator = ImageNetEvaluator(
-        root=DATA_ROOT,
-        model_name=m['paper_model_name'],
-        paper_arxiv_id=m['paper_arxiv_id'],
-        model_description=m.get('model_description', None),
-    )
-    model.cuda()
-    model.eval()
-    with torch.no_grad():
-        # warmup
-        input = torch.randn((batch_size,) + data_config['input_size']).cuda()
-        model(input)
+            batch_size = m['batch_size']
+            mean = data_config['mean']
+            std = data_config['std']
+            input_size = data_config['input_size']
+            interpolation = data_config['interpolation']
+            crop_pct = 1.0 if m['ttp'] else data_config['crop_pct']
 
-        bar = tqdm(desc="Evaluation", mininterval=5, total=50000)
-        evaluator.reset_time()
-        sample_count = 0
-        for input, target in loader:
-            output = model(input)
-            num_samples = len(output)
-            image_ids = [filenames[i] for i in range(sample_count, sample_count + num_samples)]
-            output = output.cpu().numpy()
-            evaluator.add(dict(zip(image_ids, list(output))))
-            sample_count += num_samples
-            bar.update(num_samples)
-            if evaluator.cache_exists:
-                break
+            print("Model: %s (%s)"%(model_name, m['paper_model_name']))
+            print(' params: %d'%sum([m.numel() for m in model.parameters()]))
 
-        bar.close()
-
-    evaluator.save()
-    for k, v in evaluator.results.items():
-        print(k, v)
-    for k, v in evaluator.speed_mem_metrics.items():
-        print(k, v)
-    torch.cuda.empty_cache()
+            print("  batch_size\t", batch_size)
+            print("  mean   \t", mean)
+            print("  std    \t", std)
+            print("  input_size\t", input_size)
+            print("  interpolation\t", interpolation)
+            print("  crop_pct\t", crop_pct)
+            if model_names is None or not run:
+                continue
 
 
+            xform = create_transform(input_size=input_size,
+                                     interpolation=interpolation,
+                                     mean=mean,
+                                     std=std,
+                                     crop_pct=crop_pct,
+                                     use_prefetcher=False)
+
+            print(type(model), model.__class__, list(model.parameters())[0].dtype,
+                    list(model.parameters())[0].device)
+            print(type(xform))
+            print(xform)
+
+            res = ImageNet.benchmark(model=model,
+                                     paper_model_name=model_name,
+                                     data_root=data_root,
+                                     input_transform=xform,
+                                     batch_size=batch_size,
+                                     num_gpu=1,
+                                     pin_memory=True)
+            out.append(res)
+
+
+            torch.cuda.empty_cache()
+    return out
+
+
+if __name__ == "__main__":
+    DATA_ROOT = "/home/z/data/ImageNet/ILSVRC2012"
+    RUN = True
+    NAMES = []
+    MODELS = [m['model'] for m in MODLIST]
+
+    if len(sys.argv) > 1:
+        args = list(sys.argv[1:])
+        if args[-1] in ("0", "1"):
+            RUN = bool(int(args.pop(-1)))
+        if len(args):
+            FAILS = []
+            for arg in args:
+                if is_model(arg) and arg in MODELS:
+                    NAMES.append(arg)
+                else:
+                    FAILS.append(arg)
+    if FAILS:
+        print("Fails", FAILS)
+
+    if not NAMES:
+        print("Avaliable Models", MODELS)
+
+    else:
+        print("DATA_ROOT\t", DATA_ROOT)
+        print("NAMES  \t", NAMES)
+        print("RUN    \t", RUN)
+        run_models(model_names=NAMES, model_list=MODLIST, data_root=DATA_ROOT, run=RUN)

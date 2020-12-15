@@ -2,7 +2,7 @@ from typing import Dict, Any
 
 import torch
 
-
+# pylint: disable=no-member
 class Scheduler:
     """ Parameter Scheduler Base Class
     A scheduler base class that can be used to schedule any optimizer parameter groups.
@@ -66,14 +66,14 @@ class Scheduler:
 
     def step(self, epoch: int, metric: float = None) -> None:
         self.metric = metric
-        values = self.get_epoch_values(epoch)
+        values = self.get_epoch_values(epoch) # pylint: disable=assignment-from-none
         if values is not None:
             values = self._add_noise(values, epoch)
             self.update_groups(values)
 
     def step_update(self, num_updates: int, metric: float = None):
         self.metric = metric
-        values = self.get_update_values(num_updates)
+        values = self.get_update_values(num_updates) # pylint: disable=assignment-from-none
         if values is not None:
             values = self._add_noise(values, num_updates)
             self.update_groups(values)

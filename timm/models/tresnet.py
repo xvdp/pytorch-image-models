@@ -13,13 +13,13 @@ import torch
 import torch.nn as nn
 import torch.nn.functional as F
 
-from .helpers import build_model_with_cfg
-from .layers import SpaceToDepthModule, AntiAliasDownsampleLayer, InplaceAbn, ClassifierHead, SEModule
+from ..utils.helpers import build_model_with_cfg
+from ..utils.layers import SpaceToDepthModule, AntiAliasDownsampleLayer, InplaceAbn, ClassifierHead, SEModule
 from .registry import register_model
 
 __all__ = ['tresnet_m', 'tresnet_l', 'tresnet_xl']
 
-
+# pylint: disable=no-member
 def _cfg(url='', **kwargs):
     return {
         'url': url, 'num_classes': 1000, 'input_size': (3, 224, 224), 'pool_size': (7, 7),

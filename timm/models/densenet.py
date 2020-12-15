@@ -13,13 +13,14 @@ import torch.utils.checkpoint as cp
 from torch.jit.annotations import List
 
 from timm.data import IMAGENET_DEFAULT_MEAN, IMAGENET_DEFAULT_STD
-from .helpers import build_model_with_cfg
-from .layers import BatchNormAct2d, create_norm_act, BlurPool2d, create_classifier
+from ..utils.helpers import build_model_with_cfg
+from ..utils.layers import BatchNormAct2d, create_norm_act, BlurPool2d, create_classifier
 from .registry import register_model
 
 __all__ = ['DenseNet']
 
-
+# pylint: disable=no-member
+# pylint: disable=function-redefined
 def _cfg(url=''):
     return {
         'url': url, 'num_classes': 1000, 'input_size': (3, 224, 224), 'pool_size': (7, 7),

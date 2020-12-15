@@ -4,7 +4,8 @@ Original impl by Nvidia from Jasper example:
 Paper: `Stochastic Gradient Methods with Layer-wise Adaptive Moments for Training of Deep Networks`
     - https://arxiv.org/abs/1905.11286
 """
-
+# pylint: disable=no-name-in-module
+# pylint: disable=no-member
 import torch
 from torch.optim.optimizer import Optimizer
 import math

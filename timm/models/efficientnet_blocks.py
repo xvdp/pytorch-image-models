@@ -7,8 +7,8 @@ import torch
 import torch.nn as nn
 from torch.nn import functional as F
 
-from .layers import create_conv2d, drop_path, get_act_layer
-from .layers.activations import sigmoid
+from ..utils.layers import create_conv2d, drop_path, get_act_layer
+from ..utils.layers.activations import sigmoid
 
 # Defaults used for Google/Tensorflow training of mobile networks /w RMSprop as per
 # papers and TF reference implementations. PT momentum equiv for TF decay is (1 - TF decay)
@@ -19,7 +19,7 @@ BN_MOMENTUM_TF_DEFAULT = 1 - 0.99
 BN_EPS_TF_DEFAULT = 1e-3
 _BN_ARGS_TF = dict(momentum=BN_MOMENTUM_TF_DEFAULT, eps=BN_EPS_TF_DEFAULT)
 
-
+# pylint: disable=no-member
 def get_bn_args_tf():
     return _BN_ARGS_TF.copy()
 

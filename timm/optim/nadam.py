@@ -1,7 +1,7 @@
 import torch
 from torch.optim import Optimizer
 
-
+# pylint: disable=no-member
 class Nadam(Optimizer):
     """Implements Nadam algorithm (a variant of Adam based on Nesterov momentum).
 

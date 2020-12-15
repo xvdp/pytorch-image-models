@@ -7,12 +7,13 @@ import torch.nn as nn
 import torch.nn.functional as F
 
 from timm.data import IMAGENET_INCEPTION_MEAN, IMAGENET_INCEPTION_STD
-from .helpers import build_model_with_cfg
-from .layers import create_classifier
+from ..utils.helpers import build_model_with_cfg
+from ..utils.layers import create_classifier
 from .registry import register_model
 
 __all__ = ['InceptionV4']
 
+# pylint: disable=no-member
 default_cfgs = {
     'inception_v4': {
         'url': 'https://github.com/rwightman/pytorch-image-models/releases/download/v0.1-cadene/inceptionv4-8e4777a0.pth',

@@ -18,13 +18,13 @@ import torch.nn as nn
 import torch.nn.functional as F
 
 from timm.data import IMAGENET_DEFAULT_MEAN, IMAGENET_DEFAULT_STD
-from .helpers import build_model_with_cfg
-from .layers import create_classifier
+from ..utils.helpers import build_model_with_cfg
+from ..utils.layers import create_classifier
 from .registry import register_model
 
 __all__ = ['SENet']
 
-
+# pylint: disable=no-member
 def _cfg(url='', **kwargs):
     return {
         'url': url, 'num_classes': 1000, 'input_size': (3, 224, 224), 'pool_size': (7, 7),

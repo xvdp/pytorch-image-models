@@ -11,12 +11,13 @@ import torch
 import torch.nn as nn
 import torch.nn.functional as F
 
-from .helpers import build_model_with_cfg
-from .layers import ConvBnAct, create_conv2d, create_pool2d, create_classifier
+from ..utils.helpers import build_model_with_cfg
+from ..utils.layers import ConvBnAct, create_conv2d, create_pool2d, create_classifier
 from .registry import register_model
 
 __all__ = ['PNASNet5Large']
 
+#pylint: disable=no-member
 default_cfgs = {
     'pnasnet5large': {
         'url': 'https://github.com/rwightman/pytorch-image-models/releases/download/v0.1-cadene/pnasnet5large-bf079911.pth',

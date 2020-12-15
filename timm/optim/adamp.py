@@ -7,7 +7,8 @@ Code: https://github.com/clovaai/AdamP
 Copyright (c) 2020-present NAVER Corp.
 MIT license
 """
-
+# pylint: disable=no-name-in-module
+# pylint: disable=no-member
 import torch
 import torch.nn as nn
 from torch.optim.optimizer import Optimizer, required
